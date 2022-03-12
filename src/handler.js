@@ -69,8 +69,7 @@ const addBookHandler = (request, h) => {
 };
 
 const getAllBooksHandler = (request, h) => {
-  const { reading } = request.query;
-  const { finished } = request.query;
+  const { reading, finished, name } = request.query;
 
   if (reading === '1') {
     return {
@@ -116,6 +115,19 @@ const getAllBooksHandler = (request, h) => {
       status: 'success',
       data: {
         books: books.filter((book) => book.finished === false).map((book) => ({
+          id: book.id,
+          name: book.name,
+          publisher: book.publisher,
+        })),
+      },
+    };
+  }
+
+  if (name === 'Dicoding') {
+    return {
+      status: 'success',
+      data: {
+        books: books.filter((book) => book.name.toLowerCase().match(/dicoding/)).map((book) => ({
           id: book.id,
           name: book.name,
           publisher: book.publisher,
